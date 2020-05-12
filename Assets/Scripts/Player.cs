@@ -32,6 +32,25 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.Translate(_direction * _speed * Time.deltaTime);
+
+        // according to new position, check and make some adjustments
+        // > clamp y position
+        float yPosition = Mathf.Clamp(transform.position.y, -3.8f, 0f);
+
+        // > wrap x position
+        float xPosition = transform.position.x;
+        switch (xPosition)
+        {
+            case var x when x > 11f:
+                xPosition = -11f;
+                break;
+            case var x when x < -11f:
+                xPosition = 11f;
+                break;
+        }
+
+        // Finally, update final position to display
+        transform.position = new Vector3(xPosition, yPosition, 0f);
     }
 
     private void OnEnable()
