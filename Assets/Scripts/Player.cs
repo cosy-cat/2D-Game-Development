@@ -31,13 +31,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CalculateMovement();
+    }
+
+    private void CalculateMovement()
+    {
         transform.Translate(_direction * _speed * Time.deltaTime);
 
-        // according to new position, check and make some adjustments
-        // > clamp y position
-        float yPosition = Mathf.Clamp(transform.position.y, -3.8f, 0f);
-
-        // > wrap x position
         float xPosition = transform.position.x;
         switch (xPosition)
         {
@@ -49,8 +49,11 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        // Finally, update final position to display
-        transform.position = new Vector3(xPosition, yPosition, 0f);
+        transform.position = new Vector3(
+            xPosition,
+            Mathf.Clamp(transform.position.y, -3.8f, 0f), 
+            0f
+        );
     }
 
     private void OnEnable()
