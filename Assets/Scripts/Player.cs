@@ -5,22 +5,20 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    // public InputAction moveAction;
     private PlayerControl _inputAction;
-    
-    // public InputAction moveAction = new InputAction("Move");
-    private Vector2 _moveDirection = new Vector2();
-    private Vector3 _direction = new Vector3();
+    private Vector2 _moveDirection;
+    private Vector3 _direction;
 
     [SerializeField] 
     private float _speed = 5.0f;
 
     private void Awake()
     {
+        _direction = new Vector3();
+        _moveDirection = new Vector2();
         _inputAction = new PlayerControl();
         _inputAction.Player.Move.performed += context => _moveDirection = context.ReadValue<Vector2>();
     }
-    
 
     // Start is called before the first frame update
     void Start()
