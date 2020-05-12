@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     private PlayerControl _inputAction;
-    private Vector2 _moveDirection;
     private Vector3 _direction;
 
     [SerializeField] 
@@ -15,9 +14,11 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _direction = new Vector3();
-        _moveDirection = new Vector2();
         _inputAction = new PlayerControl();
-        _inputAction.Player.Move.performed += context => _moveDirection = context.ReadValue<Vector2>();
+
+        // A Vector2 can be implicitly converted into a Vector3. (The z is set to zero in the result).
+        // https://docs.unity3d.com/ScriptReference/Vector2-operator_Vector2.html
+        _inputAction.Player.Move.performed += context => _direction = context.ReadValue<Vector2>();
     }
 
     // Start is called before the first frame update
@@ -30,8 +31,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // _moveDirection = moveAction.ReadValue<Vector2>();
-        Debug.Log(_moveDirection);
         transform.Translate(_direction * _speed * Time.deltaTime);
     }
 
