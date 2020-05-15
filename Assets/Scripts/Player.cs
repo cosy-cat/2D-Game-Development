@@ -39,14 +39,13 @@ public class Player : MonoBehaviour
         transform.Translate(_direction * _speed * Time.deltaTime);
 
         float xPosition = transform.position.x;
-        switch (xPosition)
+        if (xPosition > 11f)
         {
-            case var x when x > 11f:
-                xPosition = -11f;
-                break;
-            case var x when x < -11f:
-                xPosition = 11f;
-                break;
+            xPosition = -11f;
+        }
+        else if (xPosition < -11f)
+        {
+            xPosition = 11f;
         }
 
         transform.position = new Vector3(
