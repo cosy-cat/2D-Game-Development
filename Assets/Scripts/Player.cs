@@ -13,7 +13,14 @@ public class Player : MonoBehaviour
     [SerializeField] 
     private float _speed = 5.0f;
 
-    private bool _fire = false;
+    [SerializeField]
+    private GameObject _laser;
+
+    private bool _playerFire = false;
+    private bool _fireCoolDown = false;
+
+    [SerializeField]
+    float _fireCoolDownDelay = 0.2f;
 
     private void Awake()
     {
@@ -23,7 +30,7 @@ public class Player : MonoBehaviour
         // A Vector2 can be implicitly converted into a Vector3. (The z is set to zero in the result).
         // https://docs.unity3d.com/ScriptReference/Vector2-operator_Vector2.html
         _inputAction.Player.Move.performed += context => _direction = context.ReadValue<Vector2>();
-        _inputAction.Player.Fire.performed += context => _fire = context.ReadValueAsButton();
+        _inputAction.Player.Fire.performed += context => _playerFire = context.ReadValueAsButton();
     }
 
     // Start is called before the first frame update
@@ -37,9 +44,9 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (_fire)
+        if (_playerFire)
         {
-            Debug.Log("Firing !!!!");
+            Fire();
         }
     }
 
@@ -62,6 +69,22 @@ public class Player : MonoBehaviour
             Mathf.Clamp(transform.position.y, -3.8f, 0f), 
             0f
         );
+    }
+
+    private void Fire()
+    {
+        if (!_fireCoolDown)
+        {
+            Instantiate(_laser, transform.position, Quaternion.identity);
+            StartCoroutine("FireCoolDown");
+        }
+    }
+
+    private IEnumerator FireCoolDown()
+    {
+        _fireCoolDown = true;
+        yield return new WaitForSeconds(_fireCoolDownDelay);
+        _fireCoolDown = false;
     }
 
     private void OnEnable()
