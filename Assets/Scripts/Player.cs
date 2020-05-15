@@ -18,10 +18,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
-
     private bool _playerFire = false;
     private float _fireRate = 0f;
-    private bool _fireCoolDown = false;
 
     [SerializeField]
     float _fireCoolDownDelay = 0.2f;
@@ -77,7 +75,7 @@ public class Player : MonoBehaviour
     {
         if (Time.time > _fireRate)
         {
-            Instantiate(_laser, transform.position, Quaternion.identity);
+            Instantiate(_laser, transform.position + _spawnLaserOffset, Quaternion.identity);
             _fireRate = Time.time + _fireCoolDownDelay;
         }
     }
