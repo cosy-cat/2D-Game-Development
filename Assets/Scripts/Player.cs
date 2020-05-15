@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] 
     private float _speed = 5.0f;
 
+    private bool _fire = false;
+
     private void Awake()
     {
         _direction = new Vector3();
@@ -20,6 +23,7 @@ public class Player : MonoBehaviour
         // A Vector2 can be implicitly converted into a Vector3. (The z is set to zero in the result).
         // https://docs.unity3d.com/ScriptReference/Vector2-operator_Vector2.html
         _inputAction.Player.Move.performed += context => _direction = context.ReadValue<Vector2>();
+        _inputAction.Player.Fire.performed += context => _fire = context.ReadValueAsButton();
     }
 
     // Start is called before the first frame update
@@ -32,6 +36,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        if (_fire)
+        {
+            Debug.Log("Firing !!!!");
+        }
     }
 
     private void CalculateMovement()
