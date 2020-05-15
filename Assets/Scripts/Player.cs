@@ -45,9 +45,7 @@ public class Player : MonoBehaviour
         CalculateMovement();
 
         if (_playerFire)
-        {
             Fire();
-        }
     }
 
     private void CalculateMovement()
