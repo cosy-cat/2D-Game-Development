@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laser;
 
+    [SerializeField]
+    private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
+
     private bool _playerFire = false;
     private float _fireRate = 0f;
     private bool _fireCoolDown = false;
@@ -46,9 +49,7 @@ public class Player : MonoBehaviour
         CalculateMovement();
 
         if (_playerFire)
-        {
             Fire();
-        }
     }
 
     private void CalculateMovement()
