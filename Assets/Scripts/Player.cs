@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private GameObject _laser;
 
     private bool _playerFire = false;
+    private float _fireRate = 0f;
     private bool _fireCoolDown = false;
 
     [SerializeField]
@@ -73,18 +74,11 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        if (!_fireCoolDown)
+        if (Time.time > _fireRate)
         {
             Instantiate(_laser, transform.position, Quaternion.identity);
-            StartCoroutine("FireCoolDown");
+            _fireRate = Time.time + _fireCoolDownDelay;
         }
-    }
-
-    private IEnumerator FireCoolDown()
-    {
-        _fireCoolDown = true;
-        yield return new WaitForSeconds(_fireCoolDownDelay);
-        _fireCoolDown = false;
     }
 
     private void OnEnable()
