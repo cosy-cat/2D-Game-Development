@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -43,7 +43,9 @@ public class Enemy : MonoBehaviour
         switch (other.tag)
         {
             case "Player":
-                other.SendMessage("Damage");
+                Player player = other.GetComponent<Player>();
+                if (player != null)
+                    player.Damage();
                 break;
             case "Laser":
                 Destroy(other.gameObject);
