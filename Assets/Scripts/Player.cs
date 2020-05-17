@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     float _fireCoolDownDelay = 0.2f;
 
+    [SerializeField]
+    private int _health = 3;
+
     private void Awake()
     {
         _direction = new Vector3();
@@ -48,6 +51,7 @@ public class Player : MonoBehaviour
 
         if (_playerFire)
             Fire();
+
     }
 
     private void CalculateMovement()
@@ -78,6 +82,11 @@ public class Player : MonoBehaviour
             Instantiate(_laser, transform.position + _spawnLaserOffset, Quaternion.identity);
             _fireRate = Time.time + _fireCoolDownDelay;
         }
+    }
+
+    public void Damage()
+    {
+        _health--;
     }
 
     private void OnEnable()

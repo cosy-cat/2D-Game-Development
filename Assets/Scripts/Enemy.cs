@@ -38,4 +38,18 @@ public class Enemy : MonoBehaviour
         }    
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Player":
+                other.SendMessage("Damage");
+                break;
+            case "Laser":
+                Destroy(other.gameObject);
+                break;
+        }
+        Destroy(this.gameObject);
+    }
+
 }
