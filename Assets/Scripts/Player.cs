@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     float _fireCoolDownDelay = 0.2f;
 
     [SerializeField]
-    private int _health = 3;
+    private int _lives = 3;
 
     private void Awake()
     {
@@ -86,7 +86,11 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _health--;
+        _lives--;
+        if (_lives <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnEnable()
