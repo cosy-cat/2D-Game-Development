@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
+public delegate void OnPlayerDeathDelegate(object sender, EventArgs args);
+
 public class Player : MonoBehaviour
 {
     private PlayerControl _inputAction;
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+
+    public event OnPlayerDeathDelegate OnDeath;
 
     private void Awake()
     {
@@ -89,16 +93,26 @@ public class Player : MonoBehaviour
         _lives--;
         if (_lives <= 0)
         {
+            if (OnDeath != null)
+            {
+                OnDeath(this, new EventArgs());
+            }
             Destroy(this.gameObject);
         }
     }
 
     private void OnEnable()
     {
-        _inputAction.Enable();
+        if (_inputAction != null)
+        {
+            _inputAction.Enable();    
+        }
     }
     private void OnDisable()
     {
-        _inputAction.Disable();
+        if (_inputAction != null)
+        {
+            _inputAction.Disable();
+        }
     }
 }
