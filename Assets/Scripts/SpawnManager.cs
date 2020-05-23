@@ -9,7 +9,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyContainer = null;
     private Player _player = null;
     private IEnumerator _coroutine;
-    
+
     void Start()
     {
         if (_enemyPrefab == null)
@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (_coroutine != null)
         {
-            StopCoroutine(_coroutine);    
+            StopCoroutine(_coroutine);
         }
     }
 
