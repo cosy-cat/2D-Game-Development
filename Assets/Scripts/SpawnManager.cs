@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab = null;
     [SerializeField] private GameObject _enemyContainer = null;
     private Player _player = null;
-    private IEnumerator coroutine;
+    private IEnumerator _coroutine;
     
     void Start()
     {
@@ -20,23 +20,23 @@ public class SpawnManager : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         if (_player != null)
         {
-            _player.OnDeath += StopSpawningEnemies;
+            _player.OnDeathEvent += StopSpawningEnemies;
         }
         else
         {
             throw new System.Exception("Unable to Find Player Component of Player GameObject");
         }
 
-        coroutine = SpawnEnemies();
+        _coroutine = SpawnEnemies();
 
-        StartCoroutine(coroutine);
+        StartCoroutine(_coroutine);
     }
 
     private void StopSpawningEnemies(object sender, EventArgs e)
     {
-        if (coroutine != null)
+        if (_coroutine != null)
         {
-            StopCoroutine(coroutine);    
+            StopCoroutine(_coroutine);    
         }
     }
 

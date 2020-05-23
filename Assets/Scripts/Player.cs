@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
 
-    public event OnPlayerDeathDelegate OnDeath;
+    public event OnPlayerDeathDelegate OnDeathEvent;
 
     private void Awake()
     {
@@ -93,9 +93,9 @@ public class Player : MonoBehaviour
         _lives--;
         if (_lives <= 0)
         {
-            if (OnDeath != null)
+            if (OnDeathEvent != null)
             {
-                OnDeath(this, new EventArgs());
+                OnDeathEvent(this, new EventArgs());
             }
             Destroy(this.gameObject);
         }
