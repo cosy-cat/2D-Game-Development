@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public IEnumerator SpawnEnemies()
@@ -30,7 +30,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnLocation = new Vector3(Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnLocation, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5f);    
+            yield return new WaitForSeconds(5f);
         }
     }
 }
