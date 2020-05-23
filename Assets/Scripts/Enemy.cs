@@ -9,18 +9,6 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _direction = Vector3.down;
 
-    [SerializeField]
-    private float _ySpawn = 7f;
-
-    [SerializeField]
-    private float _yMin = -6f;
-
-    [SerializeField]
-    private float _xMin = -9f;
-
-    [SerializeField]
-    private float _xMax = 9f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +20,9 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(_direction * _speed * Time.deltaTime);
     
-        if (transform.position.y < _yMin)
+        if (transform.position.y < EnemyConst.yMin)
         {
-            transform.position = new Vector3(Random.Range(_xMin, _xMax), _ySpawn, 0);
+            transform.position = new Vector3(Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
         }    
     }
 
