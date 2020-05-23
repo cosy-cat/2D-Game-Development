@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab = null;
-
+    [SerializeField] private GameObject _enemyContainer = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +28,8 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             Vector3 spawnLocation = new Vector3(Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
-            Instantiate(_enemyPrefab, spawnLocation, Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemyPrefab, spawnLocation, Quaternion.identity);
+            newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(5f);    
         }
     }
