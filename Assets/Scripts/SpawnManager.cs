@@ -16,6 +16,8 @@ public class SpawnManager : MonoBehaviour
         {
             throw new System.Exception("Please assign an enemy prefab to the corresponding field in Unity Editor");
         }
+
+        StartCoroutine(SpawnEnemies());
     }
     // Update is called once per frame
     void Update()
