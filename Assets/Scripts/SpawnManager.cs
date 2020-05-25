@@ -6,7 +6,9 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab = null;
     [SerializeField] private GameObject _enemyContainer = null;
-    // Start is called before the first frame update
+
+    private bool _stopSpawning = false;
+    
     void Start()
     {
         if (_enemyPrefab == null)
@@ -25,12 +27,17 @@ public class SpawnManager : MonoBehaviour
 
     public IEnumerator SpawnEnemies()
     {
-        while (true)
+        while (!_stopSpawning)
         {
             Vector3 spawnLocation = new Vector3(Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnLocation, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(5f);
         }
+    }
+
+    public void OnPlayerDeath()
+    {
+        _stopSpawning = true;
     }
 }
