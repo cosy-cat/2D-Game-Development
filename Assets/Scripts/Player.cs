@@ -12,22 +12,19 @@ public class Player : MonoBehaviour
     private PlayerControl _inputAction;
     private Vector3 _direction;
 
-    [SerializeField] 
-    private float _speed = 5.0f;
+    [SerializeField] private float _speed = 5.0f;
 
-    [SerializeField]
-    private GameObject _laser = null;
+    [SerializeField] private GameObject _laser = null;
 
-    [SerializeField]
-    private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
+    [SerializeField] private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
     private bool _playerFire = false;
     private float _fireRate = 0f;
 
-    [SerializeField]
-    float _fireCoolDownDelay = 0.2f;
+    [SerializeField] float _fireCoolDownDelay = 0.2f;
 
-    [SerializeField]
-    private int _lives = 3;
+    [SerializeField] private int _lives = 3;
+
+    private SpawnManager _spawnManager;
 
     public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -46,6 +43,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = Vector3.zero;
+
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            throw new SystemException("SpawnManager component of Spawn_Manager Gameobject not found");
+        }
     }
 
     // Update is called once per frame
@@ -93,10 +96,7 @@ public class Player : MonoBehaviour
         _lives--;
         if (_lives <= 0)
         {
-            if (OnDeathEvent != null)
-            {
-                OnDeathEvent(this, new EventArgs());
-            }
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }

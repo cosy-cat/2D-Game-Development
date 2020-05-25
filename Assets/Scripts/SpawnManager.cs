@@ -7,39 +7,16 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab = null;
     [SerializeField] private GameObject _enemyContainer = null;
-    private Player _player = null;
-    private IEnumerator _coroutine;
 
+    private bool _stopSpawning = false;
+    
     void Start()
     {
         if (_enemyPrefab == null)
         {
             throw new System.Exception("Please assign an enemy prefab to the corresponding field in Unity Editor");
         }
-
-        _player = GameObject.Find("Player").GetComponent<Player>();
-        if (_player != null)
-        {
-            _player.OnDeathEvent += StopSpawningEnemies;
-        }
-        else
-        {
-            throw new System.Exception("Unable to Find Player Component of Player GameObject");
-        }
-
-        _coroutine = SpawnEnemies();
-
-        StartCoroutine(_coroutine);
     }
-
-    private void StopSpawningEnemies(object sender, EventArgs e)
-    {
-        if (_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -48,7 +25,7 @@ public class SpawnManager : MonoBehaviour
 
     public IEnumerator SpawnEnemies()
     {
-        while (true)
+        while (!_stopSpawning)
         {
             if (_enemyPrefab != null && _enemyContainer != null)
             {
@@ -60,4 +37,8 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    public void OnPlayerDeath()
+    {
+        _stopSpawning = true;
+    }
 }
