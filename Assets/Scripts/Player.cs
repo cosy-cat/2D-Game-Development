@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
-    public event OnPlayerDeathDelegate OnDeathEvent;
+    // public event OnPlayerDeathDelegate OnDeathEvent;
 
     private void Awake()
     {
