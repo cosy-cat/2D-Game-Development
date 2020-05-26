@@ -108,6 +108,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TrippleShotActive()
+    {
+        _isTrippleShotActive = true;
+        StartCoroutine(TrippleShotActiveCoroutine());
+    }
+
+    private IEnumerator TrippleShotActiveCoroutine()
+    {
+        yield return new WaitForSeconds(5f);
+        _isTrippleShotActive = false;
+    }
+
     private void OnEnable()
     {
         if (_inputAction != null)

@@ -28,6 +28,10 @@ public class PowerUp : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+                player.TrippleShotActive();
+
             Destroy(this.gameObject);
         }
     }
