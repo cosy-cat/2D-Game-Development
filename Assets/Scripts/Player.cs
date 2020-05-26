@@ -14,8 +14,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _speed = 5.0f;
 
-    [SerializeField] private GameObject _laser = null;
 
+    [SerializeField] private GameObject[] _lasers = null;
     [SerializeField] private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
     private bool _playerFire = false;
     private float _fireRate = 0f;
@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
 
     // public event OnPlayerDeathDelegate OnDeathEvent;
+
+    [SerializeField] private bool _isTrippleShotActive = false;
 
     private void Awake()
     {
@@ -49,6 +51,7 @@ public class Player : MonoBehaviour
         {
             throw new SystemException("SpawnManager component of Spawn_Manager Gameobject not found");
         }
+
     }
 
     // Update is called once per frame
@@ -86,7 +89,11 @@ public class Player : MonoBehaviour
     {
         if (Time.time > _fireRate)
         {
-            Instantiate(_laser, transform.position + _spawnLaserOffset, Quaternion.identity);
+            if (_isTrippleShotActive)
+                Instantiate(_lasers[1], transform.position + _spawnLaserOffset, Quaternion.identity);
+            else
+                Instantiate(_lasers[0], transform.position + _spawnLaserOffset, Quaternion.identity);
+
             _fireRate = Time.time + _fireCoolDownDelay;
         }
     }

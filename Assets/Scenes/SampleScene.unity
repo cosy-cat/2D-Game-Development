@@ -153,7 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _laser: {fileID: 4863233781149392446, guid: 4018fe74c856b45698a973ba23df3db7, type: 3}
+  _lasers:
+  - {fileID: 4863233781149392446, guid: 4018fe74c856b45698a973ba23df3db7, type: 3}
+  - {fileID: 3553928152473813530, guid: ac4a4692ab2c847a49a6f44e4480f1ac, type: 3}
   _spawnLaserOffset: {x: 0, y: 1.05, z: 0}
   _fireCoolDownDelay: 0.2
   _lives: 3
