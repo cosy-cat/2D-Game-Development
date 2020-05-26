@@ -89,11 +89,11 @@ public class Player : MonoBehaviour
     {
         if (Time.time > _fireRate)
         {
+            int laserIndex = 0;
             if (_isTrippleShotActive)
-                Instantiate(_lasers[1], transform.position + _spawnLaserOffset, Quaternion.identity);
-            else
-                Instantiate(_lasers[0], transform.position + _spawnLaserOffset, Quaternion.identity);
-
+                laserIndex = 1;
+            
+            Instantiate(_lasers[laserIndex], transform.position + _spawnLaserOffset, Quaternion.identity);
             _fireRate = Time.time + _fireCoolDownDelay;
         }
     }
