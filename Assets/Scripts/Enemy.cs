@@ -20,9 +20,9 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(_direction * _speed * Time.deltaTime);
     
-        if (transform.position.y < EnemyConst.yMin)
+        if (transform.position.y < SpawnObjConst.yMin)
         {
-            transform.position = new Vector3(Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
+            transform.position = new Vector3(Random.Range(SpawnObjConst.xMin, SpawnObjConst.xMax), SpawnObjConst.ySpawn, 0);
         }    
     }
 

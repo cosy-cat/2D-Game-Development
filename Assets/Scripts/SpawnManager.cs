@@ -31,7 +31,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (_enemyPrefab != null && _enemyContainer != null)
             {
-                Vector3 spawnLocation = new Vector3(UnityEngine.Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
+                Vector3 spawnLocation = new Vector3(UnityEngine.Random.Range(SpawnObjConst.xMin, SpawnObjConst.xMax), SpawnObjConst.ySpawn, 0);
                 GameObject newEnemy = Instantiate(_enemyPrefab, spawnLocation, Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
                 yield return new WaitForSeconds(5f);
