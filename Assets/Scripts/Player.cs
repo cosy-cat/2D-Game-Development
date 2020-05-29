@@ -13,6 +13,12 @@ public class Player : MonoBehaviour
     private Vector3 _direction;
     [SerializeField] private float _speed = 5.0f;
     [SerializeField] private GameObject[] _lasers = null;
+    private enum ActiveLaser
+    {
+        Default,        // shall corresponds to _lasers[0]
+        TrippleShot     // shall corresponds to _lasers[1]
+    }
+    private ActiveLaser activeLaser = ActiveLaser.Default;
     [SerializeField] private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
     private bool _playerFire = false;
     private float _fireRate = 0f;
@@ -20,7 +26,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int _lives = 3;
     private SpawnManager _spawnManager;
     // public event OnPlayerDeathDelegate OnDeathEvent;
-    [SerializeField] private bool _isTrippleShotActive = false;
 
     private void Awake()
     {
@@ -87,8 +92,12 @@ public class Player : MonoBehaviour
         if (Time.time > _fireRate)
         {
             int laserIndex = 0;
-            if (_isTrippleShotActive)
-                laserIndex = 1;
+            switch (activeLaser)
+            {
+                case ActiveLaser.TrippleShot:
+                    laserIndex = 1;
+                    break;
+            }
             
             Instantiate(_lasers[laserIndex], transform.position + _spawnLaserOffset, Quaternion.identity);
             _fireRate = Time.time + _fireCoolDownDelay;
@@ -107,14 +116,14 @@ public class Player : MonoBehaviour
 
     public void TrippleShotActive()
     {
-        _isTrippleShotActive = true;
+        activeLaser = ActiveLaser.TrippleShot;
         StartCoroutine(TrippleShotActiveCoroutine());
     }
 
     private IEnumerator TrippleShotActiveCoroutine()
     {
         yield return new WaitForSeconds(5f);
-        _isTrippleShotActive = false;
+        activeLaser = ActiveLaser.Default;
     }
 
     private void OnEnable()

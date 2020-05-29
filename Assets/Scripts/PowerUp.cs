@@ -42,6 +42,7 @@ public class PowerUp : MonoBehaviour
                 {
                     case PowerupId.TrippleShot:
                         player.TrippleShotActive();
+                        // player.ActivatePowerUp(_powerupId);
                         break;
                     case PowerupId.Speed:
                         // player.SpeedActive();
