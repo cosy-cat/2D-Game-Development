@@ -154,8 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _lasers:
-  - {fileID: 4863233781149392446, guid: 4018fe74c856b45698a973ba23df3db7, type: 3}
-  - {fileID: 3553928152473813530, guid: ac4a4692ab2c847a49a6f44e4480f1ac, type: 3}
+  - {fileID: 4863233781149392446, guid: b5bb71586e3a4449ab4bc3d4ece13158, type: 3}
+  - {fileID: 3553928152473813530, guid: 1c3d17ba993074360ba4f60534ca0d64, type: 3}
   _spawnLaserOffset: {x: 0, y: 1.05, z: 0}
   _fireCoolDownDelay: 0.2
   _lives: 3
@@ -360,11 +360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7083baf3bec345e8a3853b2cb174636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 8330467618449384532, guid: 9b53348eb980848b098763740d184290,
+  _enemyPrefab: {fileID: 8330467618449384532, guid: 56bae94b08b694006bf2fdf9879657ee,
     type: 3}
   _enemyContainer: {fileID: 467369455}
   _powerupPrefabs:
-  - {fileID: 3961709129811364422, guid: e01948aba252548d4a15337a553fb3bc, type: 3}
+  - {fileID: 3961709129811364422, guid: e8f7bfda8374b44b5919655bb6c441a7, type: 3}
   _powerupContainer: {fileID: 2128513484}
 --- !u!4 &310691758
 Transform:

@@ -50,7 +50,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject powerupPrefab = _powerupPrefabs[UnityEngine.Random.Range(0, _powerupPrefabs.Length)];
                 GameObject newPowerup = Instantiate(powerupPrefab, GetSpawnObjectLocation(), Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
-                yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 7f));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 8f));
             }
         }
     }
