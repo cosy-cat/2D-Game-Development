@@ -5,29 +5,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public delegate void OnPlayerDeathDelegate(object sender, EventArgs args);
+// public delegate void OnPlayerDeathDelegate(object sender, EventArgs args);
 
 public class Player : MonoBehaviour
 {
     private PlayerControl _inputAction;
     private Vector3 _direction;
-
     [SerializeField] private float _speed = 5.0f;
-
-
     [SerializeField] private GameObject[] _lasers = null;
     [SerializeField] private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
     private bool _playerFire = false;
     private float _fireRate = 0f;
-
     [SerializeField] float _fireCoolDownDelay = 0.2f;
-
     [SerializeField] private int _lives = 3;
-
     private SpawnManager _spawnManager;
-
     // public event OnPlayerDeathDelegate OnDeathEvent;
-
     [SerializeField] private bool _isTrippleShotActive = false;
 
     private void Awake()
