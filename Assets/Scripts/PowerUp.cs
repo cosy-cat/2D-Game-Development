@@ -8,6 +8,14 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private float _speed = 3f;
     private Vector3 _direction = Vector3.down;
 
+    private enum PowerupId
+    {
+        TrippleShot,
+        Speed,
+        Shield
+    }
+
+    [SerializeField] private PowerupId _powerupId;
     void Start()
     {
         
@@ -30,7 +38,18 @@ public class PowerUp : MonoBehaviour
         {
             Player player = other.GetComponent<Player>();
             if (player != null)
-                player.TrippleShotActive();
+                switch (_powerupId)
+                {
+                    case PowerupId.TrippleShot:
+                        player.TrippleShotActive();
+                        break;
+                    case PowerupId.Speed:
+                        // player.SpeedActive();
+                        break;
+                    case PowerupId.Shield:
+                        // player.Shield();
+                        break;
+                }
 
             Destroy(this.gameObject);
         }
