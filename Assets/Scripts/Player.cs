@@ -44,6 +44,11 @@ public class Player : MonoBehaviour
             throw new SystemException("SpawnManager component of Spawn_Manager Gameobject not found");
         }
 
+        if (_lasers.Length == 0)
+        {
+            throw new System.Exception("Please assign laser prefabs into the corresponding field in Unity Editor");
+        }
+
     }
 
     // Update is called once per frame
