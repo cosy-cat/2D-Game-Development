@@ -114,7 +114,27 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TrippleShotActive()
+    public void ActivatePowerUp(PowerUp.PowerupId powerupId)
+    {
+        switch (powerupId)
+        {
+            case PowerUp.PowerupId.TrippleShot:
+                TrippleShotActive();
+                break;
+            case PowerUp.PowerupId.Speed:
+                StartCoroutine(BoostSpeedActiveCoroutine());
+                break;
+        }
+    }
+
+    private IEnumerator BoostSpeedActiveCoroutine()
+    {
+        _speed = 8.5f;
+        yield return new WaitForSeconds(5f);
+        _speed = 5.0f;
+    }
+
+    private void TrippleShotActive()
     {
         activeLaser = ActiveLaser.TrippleShot;
         StartCoroutine(TrippleShotActiveCoroutine());
