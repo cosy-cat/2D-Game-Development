@@ -31,7 +31,17 @@ public class PowerUp : MonoBehaviour
         {
             Player player = other.GetComponent<Player>();
             if (player != null)
-                player.ActivatePowerUp(_powerupId);
+            {
+                switch (_powerupId)
+                {
+                    case PowerupId.TrippleShot:
+                        player.TrippleShotActive();
+                        break;
+                    case PowerupId.Speed:
+                        player.BoostSpeedActive();
+                        break;
+                }
+            }
 
             Destroy(this.gameObject);
         }

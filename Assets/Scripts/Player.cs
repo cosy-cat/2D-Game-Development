@@ -25,6 +25,9 @@ public class Player : MonoBehaviour
     [SerializeField] float _fireCoolDownDelay = 0.2f;
     [SerializeField] private int _lives = 3;
     private SpawnManager _spawnManager;
+    [SerializeField] private float _powerupDelay = 5f;
+    private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
+
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
     private void Awake()
@@ -53,7 +56,6 @@ public class Player : MonoBehaviour
         {
             throw new System.Exception("Please assign laser prefabs into the corresponding field in Unity Editor");
         }
-
     }
 
     // Update is called once per frame
@@ -114,36 +116,44 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ActivatePowerUp(PowerUp.PowerupId powerupId)
+    public void TrippleShotActive()
     {
-        switch (powerupId)
+        if (Time.time > _powerUpTimeout.TrippleShot)
         {
-            case PowerUp.PowerupId.TrippleShot:
-                TrippleShotActive();
-                break;
-            case PowerUp.PowerupId.Speed:
-                StartCoroutine(BoostSpeedActiveCoroutine());
-                break;
+            _powerUpTimeout.TrippleShot = Time.time + _powerupDelay;
+            StartCoroutine(TrippleShotActiveCoroutine());
         }
+        else
+            _powerUpTimeout.TrippleShot = Time.time + _powerupDelay;
+    }
+
+    private IEnumerator TrippleShotActiveCoroutine()
+    {
+        activeLaser = ActiveLaser.TrippleShot;
+        
+        for (float timer = Time.time; timer < _powerUpTimeout.TrippleShot; timer += Time.deltaTime)
+            yield return null;
+        
+        activeLaser = ActiveLaser.Default;
+    }
+
+    public void BoostSpeedActive()
+    {
+        if (Time.time > _powerUpTimeout.BoostSpeed)
+        {
+            _powerUpTimeout.BoostSpeed = Time.time + _powerupDelay;
+            StartCoroutine(BoostSpeedActiveCoroutine());
+        }
+        else
+            _powerUpTimeout.BoostSpeed = Time.time + _powerupDelay;
     }
 
     private IEnumerator BoostSpeedActiveCoroutine()
     {
         _speed = 8.5f;
-        yield return new WaitForSeconds(5f);
+        for (float timer = Time.time; timer < _powerUpTimeout.BoostSpeed; timer += Time.deltaTime)
+            yield return null;
         _speed = 5.0f;
-    }
-
-    private void TrippleShotActive()
-    {
-        activeLaser = ActiveLaser.TrippleShot;
-        StartCoroutine(TrippleShotActiveCoroutine());
-    }
-
-    private IEnumerator TrippleShotActiveCoroutine()
-    {
-        yield return new WaitForSeconds(5f);
-        activeLaser = ActiveLaser.Default;
     }
 
     private void OnEnable()
@@ -153,6 +163,7 @@ public class Player : MonoBehaviour
             _inputAction.Enable();    
         }
     }
+
     private void OnDisable()
     {
         if (_inputAction != null)

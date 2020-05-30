@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyContainer = null;
     [SerializeField] private GameObject[] _powerupPrefabs = null;
     [SerializeField] private GameObject _powerupContainer = null;
+    [SerializeField] private float _spawnMinDelay = 4f;
+    [SerializeField] private float _spawnMaxDelay = 8f;
 
     private bool _stopSpawning = false;
     
@@ -50,7 +52,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject powerupPrefab = _powerupPrefabs[UnityEngine.Random.Range(0, _powerupPrefabs.Length)];
                 GameObject newPowerup = Instantiate(powerupPrefab, GetSpawnObjectLocation(), Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
-                yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 8f));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(_spawnMinDelay, _spawnMaxDelay));
             }
         }
     }
