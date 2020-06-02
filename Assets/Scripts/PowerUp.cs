@@ -7,7 +7,7 @@ public class PowerUp : MonoBehaviour
 
     [SerializeField] private float _speed = 3f;
     private Vector3 _direction = Vector3.down;
-    public enum PowerupId
+    public enum PowerupId   // To be set in inspector for each powerup prefab
     {
         TrippleShot,
         Speed,
@@ -32,6 +32,7 @@ public class PowerUp : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
+                // player.PowerupActive(_powerupId);
                 switch (_powerupId)
                 {
                     case PowerupId.TrippleShot:
@@ -39,6 +40,9 @@ public class PowerUp : MonoBehaviour
                         break;
                     case PowerupId.Speed:
                         player.BoostSpeedActive();
+                        break;
+                    case PowerupId.Shield:
+                        player.ShieldActive();
                         break;
                 }
             }

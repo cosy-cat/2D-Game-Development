@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     [SerializeField] private float _powerupDelay = 5f;
     private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
+    private bool _isShieldActive = false;
 
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -108,7 +109,8 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _lives--;
+        if (!_isShieldActive)
+            _lives--;
         if (_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
@@ -130,10 +132,8 @@ public class Player : MonoBehaviour
     private IEnumerator TrippleShotActiveCoroutine()
     {
         activeLaser = ActiveLaser.TrippleShot;
-        
         for (float timer = Time.time; timer < _powerUpTimeout.TrippleShot; timer += Time.deltaTime)
             yield return null;
-        
         activeLaser = ActiveLaser.Default;
     }
 
@@ -154,6 +154,25 @@ public class Player : MonoBehaviour
         for (float timer = Time.time; timer < _powerUpTimeout.BoostSpeed; timer += Time.deltaTime)
             yield return null;
         _speed = 5.0f;
+    }
+
+    public void ShieldActive()
+    {
+        if (Time.time > _powerUpTimeout.Shield)
+        {
+            _powerUpTimeout.Shield = Time.time + _powerupDelay;
+            StartCoroutine(ShieldActiveCoroutine());
+        }
+        else
+            _powerUpTimeout.Shield = Time.time + _powerupDelay;
+    }
+
+    private IEnumerator ShieldActiveCoroutine()
+    {
+        _isShieldActive = true;
+        for (float timer = Time.time; timer < _powerUpTimeout.Shield; timer += Time.deltaTime)
+            yield return null;
+        _isShieldActive = false;
     }
 
     private void OnEnable()

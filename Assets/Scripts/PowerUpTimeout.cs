@@ -5,5 +5,5 @@ public class PowerUpTimeout
 {
     public float TrippleShot = 0f;
     public float BoostSpeed = 0f;
-
+    public float Shield = 0f;
 }

@@ -159,7 +159,7 @@ MonoBehaviour:
   _spawnLaserOffset: {x: 0, y: 1.05, z: 0}
   _fireCoolDownDelay: 0.2
   _lives: 3
-  _isTrippleShotActive: 0
+  _powerupDelay: 5
 --- !u!212 &25837209
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -366,7 +366,10 @@ MonoBehaviour:
   _powerupPrefabs:
   - {fileID: 3961709129811364422, guid: e8f7bfda8374b44b5919655bb6c441a7, type: 3}
   - {fileID: 2711624327054979189, guid: 4f0db829228904b0ba92d60f112e0e88, type: 3}
+  - {fileID: 4890800749412441035, guid: 23ecd5d361405491bb3fed0af955b6b4, type: 3}
   _powerupContainer: {fileID: 2128513484}
+  _spawnMinDelay: 4
+  _spawnMaxDelay: 8
 --- !u!4 &310691758
 Transform:
   m_ObjectHideFlags: 0
