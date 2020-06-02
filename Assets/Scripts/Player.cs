@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     [SerializeField] private float _powerupDelay = 5f;
     private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
-    private bool _isShieldActive = false;
     [SerializeField] private GameObject _shieldVisualizer;
 
     // public event OnPlayerDeathDelegate OnDeathEvent;
@@ -117,9 +116,8 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (_isShieldActive)
+        if (_shieldVisualizer.activeSelf)
         {
-            _isShieldActive = false;
             _shieldVisualizer.SetActive(false);
             return;
         }
@@ -183,11 +181,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator ShieldActiveCoroutine()
     {
-        _isShieldActive = true;
         _shieldVisualizer.SetActive(true);
         for (float timer = Time.time; timer < _powerUpTimeout.Shield; timer += Time.deltaTime)
             yield return null;
-        _isShieldActive = false;
         _shieldVisualizer.SetActive(false);
     }
 
