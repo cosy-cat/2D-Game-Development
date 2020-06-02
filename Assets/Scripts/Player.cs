@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _powerupDelay = 5f;
     private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
     private bool _isShieldActive = false;
+    private GameObject _shieldVisualizer;
 
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -57,6 +58,13 @@ public class Player : MonoBehaviour
         {
             throw new System.Exception("Please assign laser prefabs into the corresponding field in Unity Editor");
         }
+
+        _shieldVisualizer = this.gameObject.transform.GetChild(0).gameObject;
+        if (_shieldVisualizer == null)
+        {
+            throw new System.Exception("Please assign shield visualiser as the 1st child of the player object");
+        }
+        _shieldVisualizer.SetActive(false);
     }
 
     // Update is called once per frame
@@ -112,6 +120,7 @@ public class Player : MonoBehaviour
         if (_isShieldActive)
         {
             _isShieldActive = false;
+            _shieldVisualizer.SetActive(false);
             return;
         }
             
@@ -175,9 +184,11 @@ public class Player : MonoBehaviour
     private IEnumerator ShieldActiveCoroutine()
     {
         _isShieldActive = true;
+        _shieldVisualizer.SetActive(true);
         for (float timer = Time.time; timer < _powerUpTimeout.Shield; timer += Time.deltaTime)
             yield return null;
         _isShieldActive = false;
+        _shieldVisualizer.SetActive(false);
     }
 
     private void OnEnable()
