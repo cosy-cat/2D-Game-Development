@@ -109,8 +109,13 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (!_isShieldActive)
-            _lives--;
+        if (_isShieldActive)
+        {
+            _isShieldActive = false;
+            return;
+        }
+            
+        _lives--;
         if (_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
