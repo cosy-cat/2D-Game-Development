@@ -22,7 +22,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         StartCoroutine(SpawnEnemies());
-        StartCoroutine(spwanPowerups());
+        StartCoroutine(SpwanPowerups());
     }
     // Update is called once per frame
     void Update()
@@ -43,7 +43,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public IEnumerator spwanPowerups()
+    public IEnumerator SpwanPowerups()
     {
         while (!_stopSpawning)
         {
