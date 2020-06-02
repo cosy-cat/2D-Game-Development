@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class EnemyConst
+public static class SpawnObjConst
 {
     public const float ySpawn = 7f;
 

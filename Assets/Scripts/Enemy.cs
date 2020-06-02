@@ -20,9 +20,9 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(_direction * _speed * Time.deltaTime);
     
-        if (transform.position.y < EnemyConst.yMin)
+        if (transform.position.y < SpawnObjConst.yMin)
         {
-            transform.position = new Vector3(Random.Range(EnemyConst.xMin, EnemyConst.xMax), EnemyConst.ySpawn, 0);
+            transform.position = new Vector3(Random.Range(SpawnObjConst.xMin, SpawnObjConst.xMax), SpawnObjConst.ySpawn, 0);
         }    
     }
 
@@ -34,12 +34,13 @@ public class Enemy : MonoBehaviour
                 Player player = other.GetComponent<Player>();
                 if (player != null)
                     player.Damage();
+                Destroy(this.gameObject);
                 break;
             case "Laser":
                 Destroy(other.gameObject);
+                Destroy(this.gameObject);
                 break;
         }
-        Destroy(this.gameObject);
     }
 
 }

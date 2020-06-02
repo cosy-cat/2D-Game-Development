@@ -5,26 +5,29 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public delegate void OnPlayerDeathDelegate(object sender, EventArgs args);
+// public delegate void OnPlayerDeathDelegate(object sender, EventArgs args);
 
 public class Player : MonoBehaviour
 {
     private PlayerControl _inputAction;
     private Vector3 _direction;
-
     [SerializeField] private float _speed = 5.0f;
-
-    [SerializeField] private GameObject _laser = null;
-
+    [SerializeField] private GameObject[] _lasers = null;
+    private enum ActiveLaser
+    {
+        Default,        // shall corresponds to _lasers[0]
+        TrippleShot     // shall corresponds to _lasers[1]
+    }
+    private ActiveLaser activeLaser = ActiveLaser.Default;
     [SerializeField] private Vector3 _spawnLaserOffset = new Vector3(0f, 0.8f, 0f);
     private bool _playerFire = false;
     private float _fireRate = 0f;
-
     [SerializeField] float _fireCoolDownDelay = 0.2f;
-
     [SerializeField] private int _lives = 3;
-
     private SpawnManager _spawnManager;
+    [SerializeField] private float _powerupDelay = 5f;
+    private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
+    [SerializeField] private GameObject _shieldVisualizer;
 
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -49,6 +52,18 @@ public class Player : MonoBehaviour
         {
             throw new SystemException("SpawnManager component of Spawn_Manager Gameobject not found");
         }
+
+        if (_lasers.Length == 0)
+        {
+            throw new System.Exception("Please assign laser prefabs into the corresponding field in Unity Editor");
+        }
+
+        // _shieldVisualizer = this.gameObject.transform.GetChild(0).gameObject;
+        if (_shieldVisualizer == null)
+        {
+            throw new System.Exception("Please assign shield visualiser (child of the player) in the corresponding field in Unity Editor");
+        }
+        _shieldVisualizer.SetActive(false);
     }
 
     // Update is called once per frame
@@ -86,19 +101,90 @@ public class Player : MonoBehaviour
     {
         if (Time.time > _fireRate)
         {
-            Instantiate(_laser, transform.position + _spawnLaserOffset, Quaternion.identity);
+            int laserIndex = 0;
+            switch (activeLaser)
+            {
+                case ActiveLaser.TrippleShot:
+                    laserIndex = 1;
+                    break;
+            }
+            
+            Instantiate(_lasers[laserIndex], transform.position + _spawnLaserOffset, Quaternion.identity);
             _fireRate = Time.time + _fireCoolDownDelay;
         }
     }
 
     public void Damage()
     {
+        if (_shieldVisualizer.activeSelf)
+        {
+            _shieldVisualizer.SetActive(false);
+            return;
+        }
+            
         _lives--;
         if (_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    public void TrippleShotActive()
+    {
+        if (Time.time > _powerUpTimeout.TrippleShot)
+        {
+            _powerUpTimeout.TrippleShot = Time.time + _powerupDelay;
+            StartCoroutine(TrippleShotActiveCoroutine());
+        }
+        else
+            _powerUpTimeout.TrippleShot = Time.time + _powerupDelay;
+    }
+
+    private IEnumerator TrippleShotActiveCoroutine()
+    {
+        activeLaser = ActiveLaser.TrippleShot;
+        for (float timer = Time.time; timer < _powerUpTimeout.TrippleShot; timer += Time.deltaTime)
+            yield return null;
+        activeLaser = ActiveLaser.Default;
+    }
+
+    public void BoostSpeedActive()
+    {
+        if (Time.time > _powerUpTimeout.BoostSpeed)
+        {
+            _powerUpTimeout.BoostSpeed = Time.time + _powerupDelay;
+            StartCoroutine(BoostSpeedActiveCoroutine());
+        }
+        else
+            _powerUpTimeout.BoostSpeed = Time.time + _powerupDelay;
+    }
+
+    private IEnumerator BoostSpeedActiveCoroutine()
+    {
+        _speed = 8.5f;
+        for (float timer = Time.time; timer < _powerUpTimeout.BoostSpeed; timer += Time.deltaTime)
+            yield return null;
+        _speed = 5.0f;
+    }
+
+    public void ShieldActive()
+    {
+        if (Time.time > _powerUpTimeout.Shield)
+        {
+            _powerUpTimeout.Shield = Time.time + _powerupDelay;
+            StartCoroutine(ShieldActiveCoroutine());
+        }
+        else
+            _powerUpTimeout.Shield = Time.time + _powerupDelay;
+    }
+
+    private IEnumerator ShieldActiveCoroutine()
+    {
+        _shieldVisualizer.SetActive(true);
+        for (float timer = Time.time; timer < _powerUpTimeout.Shield; timer += Time.deltaTime)
+            yield return null;
+        _shieldVisualizer.SetActive(false);
     }
 
     private void OnEnable()
@@ -108,6 +194,7 @@ public class Player : MonoBehaviour
             _inputAction.Enable();    
         }
     }
+
     private void OnDisable()
     {
         if (_inputAction != null)

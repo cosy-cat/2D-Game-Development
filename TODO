@@ -1,0 +1,4 @@
+
+Todo:
+  ✔ CHECK and DEFINE coroutine powerup behaviour if 2 of the same ID are collected BEFORE cooldown of the 1st one @done(20-05-30 17:59)
+  ☐ Optimise new coroutine timeout method as there is lots of duplicate code
