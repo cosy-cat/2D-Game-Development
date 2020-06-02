@@ -160,6 +160,7 @@ MonoBehaviour:
   _fireCoolDownDelay: 0.2
   _lives: 3
   _powerupDelay: 5
+  _shieldVisualizer: {fileID: 452066577}
 --- !u!212 &25837209
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _powerupDelay = 5f;
     private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
     private bool _isShieldActive = false;
-    private GameObject _shieldVisualizer;
+    [SerializeField] private GameObject _shieldVisualizer;
 
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -59,10 +59,10 @@ public class Player : MonoBehaviour
             throw new System.Exception("Please assign laser prefabs into the corresponding field in Unity Editor");
         }
 
-        _shieldVisualizer = this.gameObject.transform.GetChild(0).gameObject;
+        // _shieldVisualizer = this.gameObject.transform.GetChild(0).gameObject;
         if (_shieldVisualizer == null)
         {
-            throw new System.Exception("Please assign shield visualiser as the 1st child of the player object");
+            throw new System.Exception("Please assign shield visualiser (child of the player) in the corresponding field in Unity Editor");
         }
         _shieldVisualizer.SetActive(false);
     }
