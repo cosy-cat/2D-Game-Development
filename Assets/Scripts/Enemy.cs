@@ -34,12 +34,13 @@ public class Enemy : MonoBehaviour
                 Player player = other.GetComponent<Player>();
                 if (player != null)
                     player.Damage();
+                Destroy(this.gameObject);
                 break;
             case "Laser":
                 Destroy(other.gameObject);
+                Destroy(this.gameObject);
                 break;
         }
-        Destroy(this.gameObject);
     }
 
 }
