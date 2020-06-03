@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
 // public delegate void OnPlayerDeathDelegate(object sender, EventArgs args);
+// public delegate void OnPlayerScoreDelegate(object sender, EventArgs args);
 
 public class Player : MonoBehaviour
 {
@@ -28,7 +29,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _powerupDelay = 5f;
     private PowerUpTimeout _powerUpTimeout = new PowerUpTimeout();
     [SerializeField] private GameObject _shieldVisualizer;
-
+    [SerializeField] private int _score = 0;
+    private UIManager _uiManager;
+    // public event OnPlayerScoreDelegate OnPlayerScore;
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
     private void Awake()
@@ -64,6 +67,11 @@ public class Player : MonoBehaviour
             throw new System.Exception("Please assign shield visualiser (child of the player) in the corresponding field in Unity Editor");
         }
         _shieldVisualizer.SetActive(false);
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null)
+        {
+            Debug.LogError("Canvas object is not found");
+        }
     }
 
     // Update is called once per frame
@@ -185,6 +193,12 @@ public class Player : MonoBehaviour
         for (float timer = Time.time; timer < _powerUpTimeout.Shield; timer += Time.deltaTime)
             yield return null;
         _shieldVisualizer.SetActive(false);
+    }
+
+    public void AddScore(int score)
+    {
+        _score += score;
+        _uiManager.UpdateScore(_score);
     }
 
     private void OnEnable()
