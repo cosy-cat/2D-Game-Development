@@ -46,13 +46,16 @@ public class UIManager : MonoBehaviour
         _livesImage.sprite = _liveSprites[currentLives];
         if (currentLives == 0)
         {
-            _restartGameText.gameObject.SetActive(true);
-            StartCoroutine(DisplayGameOverRoutine());
-
-            _gameOverText.gameObject.SetActive(true);
-            _inputAction.Player.RestartGame.performed += context => _restartGame = context.ReadValueAsButton();
+            GameOverSequence();
         }
-            
+    }
+
+    private void GameOverSequence()
+    {
+        _restartGameText.gameObject.SetActive(true);
+        StartCoroutine(DisplayGameOverRoutine());
+        _gameOverText.gameObject.SetActive(true);
+        _inputAction.Player.RestartGame.performed += context => _restartGame = context.ReadValueAsButton();
     }
 
     private IEnumerator DisplayGameOverRoutine()
