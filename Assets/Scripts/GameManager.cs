@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     {
         if (_isGameOver)
         {
-            SceneManager.LoadScene(0, LoadSceneMode.Single); // current game scene
+            SceneManager.LoadScene(1, LoadSceneMode.Single); // current game scene
         }
     }
 
