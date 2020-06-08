@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     private Vector3 _direction = Vector3.down;
     private Player _player = null;
     private Animator _animator;
+    private bool _isBeingDestroyed = false;
+    private BoxCollider2D _collider;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,12 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Animator component not found");
         }
+
+        _collider = GetComponent<BoxCollider2D>();
+        if (_collider == null)
+        {
+            Debug.LogError("Collider component not found");
+        }
     }
 
     // Update is called once per frame
@@ -31,7 +39,7 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(_direction * _speed * Time.deltaTime);
     
-        if (transform.position.y < SpawnObjConst.yMin)
+        if (!_isBeingDestroyed && transform.position.y < SpawnObjConst.yMin)
         {
             transform.position = new Vector3(Random.Range(SpawnObjConst.xMin, SpawnObjConst.xMax), SpawnObjConst.ySpawn, 0);
         }    
@@ -44,17 +52,22 @@ public class Enemy : MonoBehaviour
             case "Player":
                 if (_player != null)
                     _player.Damage();
-                _animator.SetTrigger("OnEnemyDeath");
-                Destroy(this.gameObject);
+                DestroyEnemy();
                 break;
             case "Laser":
                 Destroy(other.gameObject, 2.8f);
                 if (_player != null)
                     _player.AddScore(10);
-                _animator.SetTrigger("OnEnemyDeath");
-                Destroy(this.gameObject, 2.8f);
+                DestroyEnemy();
                 break;
         }
     }
 
+    private void DestroyEnemy()
+    {
+        _isBeingDestroyed = true;
+        _collider.enabled = false;
+        _animator.SetTrigger("OnEnemyDeath");
+        Destroy(this.gameObject, 2.8f);
+    }
 }
