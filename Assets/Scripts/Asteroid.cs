@@ -10,6 +10,7 @@ public class Asteroid : MonoBehaviour
     private float _rotationSpeed;
     private Vector3 _rotationAxis = Vector3.forward;
     [SerializeField] GameObject _explosionPrefab;
+    private Player _player = null;
     
     void Start()
     {
@@ -20,6 +21,11 @@ public class Asteroid : MonoBehaviour
         if (_explosionPrefab == null)
         {
             Debug.LogError("Explostion Prefab has not be assigned via Unity Editor");
+        }
+        _player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("Player is null");
         }
     }
 
@@ -35,13 +41,24 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Laser")
+        switch (other.tag)
         {
-            // Instantiate()
-            GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            explosion.transform.localScale = _scale;
-            Destroy(other.gameObject);
-            Destroy(this.gameObject, 0.2f);
+            case "Laser":
+                Destroy(other.gameObject);
+                DestroyAsteroid();
+                break;
+            case "Player":
+                if (_player != null)
+                    _player.Damage();
+                DestroyAsteroid();
+                break;
         }
+    }
+
+    private void DestroyAsteroid()
+    {
+        GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        explosion.transform.localScale = _scale;
+        Destroy(this.gameObject, 0.2f);
     }
 }
