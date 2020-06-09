@@ -12,6 +12,7 @@ public class Asteroid : MonoBehaviour
     
     void Start()
     {
+        transform.localScale = Vector3.one * UnityEngine.Random.Range(.2f, 1f);
         _speed = UnityEngine.Random.Range(1f, 3f);
         _rotationSpeed = UnityEngine.Random.Range(-40f, 40f);
         if (_explosionPrefab == null)

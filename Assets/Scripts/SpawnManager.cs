@@ -64,12 +64,12 @@ public class SpawnManager : MonoBehaviour
     {
         while(!_stopSpawning)
         {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(_spawnMinDelay, _spawnMaxDelay));
             for (int i = 0; i < UnityEngine.Random.Range(0, 4); i++)
             {
                 Instantiate(_asteroidPrefab, GetSpawnObjectLocation(), Quaternion.identity);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(.2f, 1f));
             }
-            yield return new WaitForSeconds(UnityEngine.Random.Range(_spawnMinDelay, _spawnMaxDelay));
         }
     }
 
