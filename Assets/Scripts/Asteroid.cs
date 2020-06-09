@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
+    private Vector3 _scale;
     private float _speed;
     private Vector3 _direction = Vector3.down;
     private float _rotationSpeed;
@@ -12,7 +13,8 @@ public class Asteroid : MonoBehaviour
     
     void Start()
     {
-        transform.localScale = Vector3.one * UnityEngine.Random.Range(.2f, 1f);
+        _scale = Vector3.one * UnityEngine.Random.Range(.2f, 1f);
+        transform.localScale = _scale;
         _speed = UnityEngine.Random.Range(1f, 3f);
         _rotationSpeed = UnityEngine.Random.Range(-40f, 40f);
         if (_explosionPrefab == null)
@@ -23,8 +25,8 @@ public class Asteroid : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(_direction * _speed * Time.deltaTime);
-        transform.Rotate(_rotationAxis * _rotationSpeed * Time.deltaTime);
+        transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
+        transform.Rotate(_rotationAxis * _rotationSpeed * Time.deltaTime, Space.Self);
         if (transform.position.y < SpawnObjConst.yMin)
         {
             Destroy(this.gameObject);
@@ -35,7 +37,9 @@ public class Asteroid : MonoBehaviour
     {
         if (other.tag == "Laser")
         {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            // Instantiate()
+            GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            explosion.transform.localScale = _scale;
             Destroy(other.gameObject);
             Destroy(this.gameObject, 0.2f);
         }
