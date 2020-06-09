@@ -12,7 +12,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _asteroidPrefab = null;
     [SerializeField] private float _spawnMinDelay = 4f;
     [SerializeField] private float _spawnMaxDelay = 8f;
-
     private bool _stopSpawning = false;
     
     void Start()
