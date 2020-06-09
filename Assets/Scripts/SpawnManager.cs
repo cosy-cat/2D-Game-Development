@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyContainer = null;
     [SerializeField] private GameObject[] _powerupPrefabs = null;
     [SerializeField] private GameObject _powerupContainer = null;
+    [SerializeField] private GameObject _asteroidPrefab = null;
     [SerializeField] private float _spawnMinDelay = 4f;
     [SerializeField] private float _spawnMaxDelay = 8f;
 
@@ -16,19 +17,20 @@ public class SpawnManager : MonoBehaviour
     
     void Start()
     {
-        if (_enemyPrefab == null || _enemyContainer == null || _powerupPrefabs.Length == 0 || _powerupContainer == null)
+        if (_enemyPrefab == null || _enemyContainer == null || _powerupPrefabs.Length == 0 || _powerupContainer == null || _asteroidPrefab == null)
         {
             throw new System.Exception("Please assign prefabs and corresponding container into the corresponding field in Unity Editor");
         }
 
         StartCoroutine(SpawnEnemies());
         StartCoroutine(SpwanPowerups());
+        StartCoroutine(SpwanAsteroids());
     }
     // Update is called once per frame
-    void Update()
-    {
+    // void Update()
+    // {
 
-    }
+    // }
 
     public IEnumerator SpawnEnemies()
     {
@@ -45,6 +47,7 @@ public class SpawnManager : MonoBehaviour
 
     public IEnumerator SpwanPowerups()
     {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 5f));
         while (!_stopSpawning)
         {
             if (_powerupPrefabs.Length > 0 && _powerupContainer != null)       
@@ -54,6 +57,19 @@ public class SpawnManager : MonoBehaviour
                 newPowerup.transform.parent = _powerupContainer.transform;
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_spawnMinDelay, _spawnMaxDelay));
             }
+        }
+    }
+
+    public IEnumerator SpwanAsteroids()
+    {
+        while(!_stopSpawning)
+        {
+            for (int i = 0; i < UnityEngine.Random.Range(0, 4); i++)
+            {
+                Instantiate(_asteroidPrefab, GetSpawnObjectLocation(), Quaternion.identity);
+                yield return new WaitForSeconds(UnityEngine.Random.Range(.2f, 1f));
+            }
+            yield return new WaitForSeconds(UnityEngine.Random.Range(_spawnMinDelay, _spawnMaxDelay));
         }
     }
 

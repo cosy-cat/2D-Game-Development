@@ -5,12 +5,14 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
     private float _speed;
+    private Vector3 _direction = Vector3.down;
     private float _rotationSpeed;
     private Vector3 _rotationAxis = Vector3.forward;
     [SerializeField] GameObject _explosionPrefab;
     
     void Start()
     {
+        _speed = UnityEngine.Random.Range(1f, 3f);
         _rotationSpeed = UnityEngine.Random.Range(-40f, 40f);
         if (_explosionPrefab == null)
         {
@@ -20,7 +22,12 @@ public class Asteroid : MonoBehaviour
 
     void Update()
     {
+        transform.Translate(_direction * _speed * Time.deltaTime);
         transform.Rotate(_rotationAxis * _rotationSpeed * Time.deltaTime);
+        if (transform.position.y < SpawnObjConst.yMin)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
