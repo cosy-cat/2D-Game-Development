@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shieldVisualizer;
     [SerializeField] private int _score = 0;
     private UIManager _uiManager;
+    [SerializeField] private GameObject[] _fires = new GameObject[2];
     // public event OnPlayerScoreDelegate OnPlayerScore;
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -71,6 +72,13 @@ public class Player : MonoBehaviour
         if (_uiManager == null)
         {
             Debug.LogError("Canvas object is not found");
+        }
+        for (int i = 0; i < _fires.Length; i++)
+        {
+            if (_fires[i] == null)
+            {
+                Debug.LogError("Please assign fires damage visualiser (child of the player) in the corresponding fields in Unity Editor");
+            }
         }
     }
 
@@ -131,6 +139,24 @@ public class Player : MonoBehaviour
         }
             
         _lives--;
+
+        switch (_lives)
+        {
+            case 2:
+                _fires[UnityEngine.Random.Range(0, _fires.Length)].SetActive(true);
+                break;
+            case 1:
+                for (int i = 0; i < _fires.Length; i++)
+                {
+                    if (_fires[i].activeSelf == false)
+                    {
+                        _fires[i].SetActive(true);
+                        break;
+                    }
+                }
+                break;
+        }
+
         _uiManager.UpdateLives(_lives);
         if (_lives <= 0)
         {
