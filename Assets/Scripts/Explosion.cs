@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private AudioManager _audioManager;
     void Start()
     {
+        _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        if (_audioManager == null)
+        {
+            Debug.LogError("Unable to find game object audio manager");
+        }
+        _audioManager.PlayExplosion();
+
         Destroy(this.gameObject, 2.8f);
     }
 }

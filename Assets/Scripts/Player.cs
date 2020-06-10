@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] _fires = new GameObject[2];
     [SerializeField] private AudioClip _laserShotAudioClip;
     private AudioSource _laserShotAudioSrc;
+    private AudioManager _audioManager;
+    // [SerializeField] private AudioSource _explostionAudioSrc;
     // public event OnPlayerScoreDelegate OnPlayerScore;
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -92,6 +94,13 @@ public class Player : MonoBehaviour
             _laserShotAudioSrc = GetComponent<AudioSource>();
             _laserShotAudioSrc.clip = _laserShotAudioClip;
         }
+
+        _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        if (_audioManager == null)
+        {
+            Debug.LogError("Unable to find game object audio manager");
+        }
+
     }
 
     // Update is called once per frame
@@ -175,6 +184,7 @@ public class Player : MonoBehaviour
         if (_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
+            _audioManager.PlayExplosion();
             Destroy(this.gameObject);
         }
     }
