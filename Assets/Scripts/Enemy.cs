@@ -12,7 +12,6 @@ public class Enemy : MonoBehaviour
     private bool _isBeingDestroyed = false;
     private BoxCollider2D _collider;
     private AudioManager _audioManager;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +73,7 @@ public class Enemy : MonoBehaviour
         _isBeingDestroyed = true;
         _collider.enabled = false;
         _animator.SetTrigger("OnEnemyDeath");
-        _audioManager.PlayExplosion();
+        _audioManager.Play(AudioManager.ObjectAudio.Explosion);
         Destroy(this.gameObject, 2.8f);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     private AudioManager _audioManager;
+
     void Start()
     {
         _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
@@ -12,7 +13,7 @@ public class Explosion : MonoBehaviour
         {
             Debug.LogError("Unable to find game object audio manager");
         }
-        _audioManager.PlayExplosion();
+        _audioManager.Play(AudioManager.ObjectAudio.Explosion);
 
         Destroy(this.gameObject, 2.8f);
     }

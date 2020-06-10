@@ -4,25 +4,36 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    private AudioSource _audioSourceExplosion;
-    
+    private List<AudioSource> _objectAudioSrc = new List<AudioSource>();
+    public enum ObjectAudio
+    {
+        Explosion,
+        PowerUp
+    }
     void Start()
     {
-        _audioSourceExplosion = this.gameObject.transform.GetChild(1).GetChild(0).gameObject.GetComponent<AudioSource>();
-        if (_audioSourceExplosion == null)
+        Transform objectAudio = transform.GetChild(1);
+        if (objectAudio == null)
         {
-            Debug.LogError("Unable to find explosion audio source in child objects.");
+            Debug.LogError("Unable to find ObjectAudio gameObject");
+        }
+        for (int i = 0; i < objectAudio.childCount; i++)
+        {
+            _objectAudioSrc.Add(objectAudio.GetChild(i).GetComponent<AudioSource>());
         }
     }
 
 
-    public void PlayExplosion()
+    public void Play(ObjectAudio objectAudio)
     {
-        _audioSourceExplosion.Play();
+        switch (objectAudio)
+        {
+            case ObjectAudio.Explosion:
+                _objectAudioSrc[0].Play();
+                break;
+            case ObjectAudio.PowerUp:
+                _objectAudioSrc[1].Play();
+                break;
+        }
     }
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 }
