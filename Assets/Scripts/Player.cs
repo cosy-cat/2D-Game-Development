@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _score = 0;
     private UIManager _uiManager;
     [SerializeField] private GameObject[] _fires = new GameObject[2];
+    [SerializeField] private AudioClip _laserShotAudioClip;
+    private AudioSource _laserShotAudioSrc;
     // public event OnPlayerScoreDelegate OnPlayerScore;
     // public event OnPlayerDeathDelegate OnDeathEvent;
 
@@ -80,6 +82,16 @@ public class Player : MonoBehaviour
                 Debug.LogError("Please assign fires damage visualiser (child of the player) in the corresponding fields in Unity Editor");
             }
         }
+
+        if (_laserShotAudioClip == null)
+        {
+            Debug.LogError("Please assign Laser Audio Clip on the Player in the corresponding field in Unity Editor");
+        }
+        else
+        {
+            _laserShotAudioSrc = GetComponent<AudioSource>();
+            _laserShotAudioSrc.clip = _laserShotAudioClip;
+        }
     }
 
     // Update is called once per frame
@@ -127,6 +139,8 @@ public class Player : MonoBehaviour
             
             Instantiate(_lasers[laserIndex], transform.position + _spawnLaserOffset, Quaternion.identity);
             _fireRate = Time.time + _fireCoolDownDelay;
+
+            _laserShotAudioSrc.Play();
         }
     }
 

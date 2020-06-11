@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private bool _isBeingDestroyed = false;
     private BoxCollider2D _collider;
-
+    private AudioManager _audioManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +31,11 @@ public class Enemy : MonoBehaviour
         if (_collider == null)
         {
             Debug.LogError("Collider component not found");
+        }
+        _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        if (_audioManager == null)
+        {
+            Debug.LogError("Unable to find game object audio manager");
         }
     }
 
@@ -68,6 +73,7 @@ public class Enemy : MonoBehaviour
         _isBeingDestroyed = true;
         _collider.enabled = false;
         _animator.SetTrigger("OnEnemyDeath");
+        _audioManager.Play(AudioManager.ObjectAudio.Explosion);
         Destroy(this.gameObject, 2.8f);
     }
 }

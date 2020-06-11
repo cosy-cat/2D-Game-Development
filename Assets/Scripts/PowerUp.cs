@@ -14,6 +14,16 @@ public class PowerUp : MonoBehaviour
         Shield
     }
     [SerializeField] private PowerupId _powerupId;
+    private AudioManager _audioManager;
+
+    private void Start()
+    {
+        _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        if (_audioManager == null)
+        {
+            Debug.LogError("Unable to find game object audio manager");
+        }
+    }
 
     void Update()
     {
@@ -46,7 +56,7 @@ public class PowerUp : MonoBehaviour
                         break;
                 }
             }
-
+            _audioManager.Play(AudioManager.ObjectAudio.PowerUp);
             Destroy(this.gameObject);
         }
     }
